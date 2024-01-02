@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Certificate Generator</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="text">
+      Certificate Generator
+    </div>
+    <form id="certificateForm">
+       <div class="form-row">
+          <div class="input-data">
+             <input type="text" id="firstNameInput" required>
+             <div class="underline"></div>
+             <label for="firstNameInput">First Name</label>
+          </div>
+          <div class="input-data">
+             <input type="text" id="lastNameInput" required>
+             <div class="underline"></div>
+             <label for="lastNameInput">Last Name</label>
+          </div>
+       </div>
+       <div class="form-row">
+          <div class="input-data">
+             <input type="email" id="emailInput" required>
+             <div class="underline"></div>
+             <label for="emailInput">Email Address</label>
+          </div>
+       </div>
+       <div class="form-row submit-btn">
+          <div class="input-data">
+             <div class="inner"></div>
+             <input type="submit" value="Generate" id="submitBtn">
+             <button id="sendEmailBtn" style="display: none;">Send Certificate via Email</button>
+          </div>
+       </div>
+    </form>
+  </div>
+
+  <script src="https://unpkg.com/pdf-lib@1.4.0"></script>
+  <script src="https://unpkg.com/@pdf-lib/fontkit@0.0.4"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
