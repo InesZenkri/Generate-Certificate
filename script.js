@@ -18,13 +18,14 @@ document.addEventListener("DOMContentLoaded", function () {
     // Get the first page of the document
     const pages = pdfDoc.getPages();
     const firstPage = pages[0];
-
+    // I want to check the validety/existacy of the email too and then sen dthe certificate per mail to the given adress
     // Capitalize and Concatenatefirst and last names
     const formattedFirstName = capitalize(firstName);
     const formattedLastName = capitalize(lastName);
     const fullName = `${formattedFirstName} ${formattedLastName}`;
 
-    // Draw name on the certificate
+    /*Draw name on the certificate
+    but i still need find the right x cordinates inorder to place the name in the correct postion "center"*/
     firstPage.drawText(fullName, {
       x: 250,
       y: 270,
