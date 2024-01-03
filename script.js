@@ -26,8 +26,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     /*Draw name on the certificate
     but i still need find the right x cordinates inorder to place the name in the correct postion "center"*/
+    const startX = 135; 
+    const endX = 740; 
+    const rangeWidth = endX - startX;
+    const fontSize = 58; //initial 
+    const font = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
+    const textWidth = font.widthOfTextAtSize(fullName, fontSize);
+
+    const textStartX = startX + (rangeWidth - textWidth) / 2;
     firstPage.drawText(fullName, {
-      x: 250,
+      x: textStartX,
       y: 270,
       size: 58,
       color: rgb(0.71, 0.514, 0.839),
