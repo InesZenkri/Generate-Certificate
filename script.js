@@ -24,24 +24,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const formattedLastName = capitalize(lastName);
     const fullName = `${formattedFirstName} ${formattedLastName}`;
 
-    /*Draw name on the certificate
-    but i still need find the right x cordinates inorder to place the name in the correct postion "center"*/
+    /*Draw name*/
     const startX = 135; 
     const endX = 740; 
     const rangeWidth = endX - startX;
     let fontSize = 58; //initial 
     const font = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
     let textWidth = font.widthOfTextAtSize(fullName, fontSize);
-    console.log(textWidth);
-    console.log(rangeWidth);
-    console.log(fontSize);
     if(textWidth > rangeWidth) {
       console.log("doesn't fit in");
       const scale = rangeWidth / textWidth;
-      fontSize *= scale ;
+      fontSize *= scale ;// chnage it (smaller) so the name fits in
       textWidth = font.widthOfTextAtSize(fullName, fontSize);
-      console.log(textWidth);
-      console.log(fontSize);
     }
     const textStartX = startX + (rangeWidth - textWidth) / 2;
     firstPage.drawText(fullName, {
@@ -63,12 +57,44 @@ document.addEventListener("DOMContentLoaded", function () {
     saveAs(file, "Certificate.pdf");
   };
 
+  const validateEmail = (email) => {
+    const regex =  /\S+@\S+\.\S+/;
+    if(regex.test(email)){
+    return regex.test(email);
+  }
+  };
+  
   certificateForm.addEventListener("submit", function (event) {
     event.preventDefault();
 
     const firstName = document.getElementById("firstNameInput").value.trim();
     const lastName = document.getElementById("lastNameInput").value.trim();
-    if (firstName !== "" && lastName !== "") {
+    const email = document.getElementById("emailInput").value.trim();
+    const apiKey = '616f406ce3534064bc86765bd18a93c7'; 
+    const url = `https://emailvalidation.abstractapi.com/v1/?api_key=${apiKey}&email=${email}`;
+
+    function httpGetAsync(url, callback) {
+      const xmlHttp = new XMLHttpRequest();
+      xmlHttp.onreadystatechange = function() {
+        if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+          callback(xmlHttp.responseText);
+        }
+      };
+      xmlHttp.open("GET", url, true);
+      xmlHttp.send(null);
+    }
+    httpGetAsync(url, function(response) {
+      const data = JSON.parse(response);
+      console.log(data);
+      // Process the response data here
+      // Check the 'valid' field in the response to determine email validity
+      if (data.valid) {
+        console.log('Email is valid.');
+      } else {
+        console.log('Email is not valid.');
+      }
+    });
+    if (firstName !== "" && lastName !== "" && validateEmail(email)) {
       generatePDF(firstName, lastName);
       document.getElementById("firstNameInput").value = "";
       document.getElementById("lastNameInput").value = "";
