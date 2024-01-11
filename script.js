@@ -18,10 +18,12 @@ document.addEventListener("DOMContentLoaded", function () {
     // Get the first page of the document
     const pages = pdfDoc.getPages();
     const firstPage = pages[0];
+
     // I want to check the validety/existacy of the email too and then sen dthe certificate per mail to the given adress
     // Capitalize and Concatenatefirst and last names
     const formattedFirstName = capitalize(firstName);
     const formattedLastName = capitalize(lastName);
+    const email = document.getElementById("emailInput").value.trim();
     const fullName = `${formattedFirstName} ${formattedLastName}`;
 
     /*Draw name*/
@@ -54,16 +56,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const file = new Blob([pdfBytes], {
       type: "application/pdf;charset=utf-8",
     });
-    saveAs(file, "Certificate.pdf");
+    saveAs(file, "Certificate.pdf")
   };
 
+  // Check valid Format of email
   const validateEmail = (email) => {
     const regex =  /\S+@\S+\.\S+/;
-    if(regex.test(email)){
     return regex.test(email);
-  }
   };
-  
+
   certificateForm.addEventListener("submit", function (event) {
     event.preventDefault();
 
@@ -83,27 +84,28 @@ document.addEventListener("DOMContentLoaded", function () {
       xmlHttp.open("GET", url, true);
       xmlHttp.send(null);
     }
-    httpGetAsync(url, function(response) {
-      const data = JSON.parse(response);
-      console.log(data);
-      // Process the response data here
-      // Check the 'valid' field in the response to determine email validity
-      if (data.valid) {
-        console.log('Email is valid.');
-      } else {
-        console.log('Email is not valid.');
-      }
-    });
     if (firstName !== "" && lastName !== "" && validateEmail(email)) {
-      generatePDF(firstName, lastName);
-      document.getElementById("firstNameInput").value = "";
-      document.getElementById("lastNameInput").value = "";
-      document.getElementById("emailInput").value = "";
-      alert("Certificate Downloaded");
-    } else {
-      console.log("He was too shy to give his first/last name");
-      alert("Please d'ont be shy and supply us with your infos 🥺");
-    }
+      httpGetAsync(url, function(response) {
+        if (response) {
+          const data = JSON.parse(response);
+          console.log('Response data:', data);
+          if (data.deliverability === 'DELIVERABLE') {
+            generatePDF(firstName, lastName);
+            document.getElementById("firstNameInput").value = "";
+            document.getElementById("lastNameInput").value = "";
+            document.getElementById("emailInput").value = "";
+            alert("Certificate Downloaded");
+            console.log('email is valid');
+          }else {
+            console.log('The provided email does not exist or is not deliverable.');
+            alert("Please give valid Email adress");
+          }
+      }
+      });
+      } else {
+        console.log("He was too shy to give his first/last name");
+        alert("Please d'ont be shy and supply us with your infos 🥺");
+      }
   });
 });
 

@@ -1,18 +1,33 @@
 {
-    "name": "Certificate Generator",
-    "short_name": "Certificate",
-    "description": "A Certificate to reward yourself ",
-    "repository": "https://github.com/InesZenkri/Generate-Certificate",
-    "url": "https://ineszenkri.github.io/Generate-Certificate/",
-    "author": "Ines Zenkri <ines@zenkri.com>",
-    "display": "standalone",
-    "background_color": "rgb(230,230,250)",
-    "theme_color": "rgb(230,230,250)",
-    "icons": [
-      {
-        "src": "certificate.png",
-        "sizes": "192x192",
-        "type": "image/png"
-      }
-    ]
+  "name": "Certificate Generator",
+  "short_name": "Certificate",
+  "description": "A Certificate to reward yourself",
+  "start_url": "/index.html",
+  "id" : "/index.html",
+  "repository": "https://github.com/InesZenkri/Generate-Certificate",
+  "url": "https://ineszenkri.github.io/Generate-Certificate/",
+  "display": "standalone",
+  "background_color": "rgb(230, 230, 250)",
+  "theme_color": "rgb(230, 230, 250)",
+  "icons": [
+    {
+      "src": "certificate.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "looklike.png",
+      "sizes": "1080x1080",
+      "type": "image/png",
+      "platform": "desktop/phone",
+      "form_factor": "wide"
+    }
+
+  ],
+  "author": {
+    "name": "Ines Zenkri",
+    "email": "ines@zenkri.com"
   }
+}
