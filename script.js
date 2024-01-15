@@ -63,11 +63,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const attachmentData = reader.result.split(",")[1];
     const htmlBody = `
     <html>
-  <head>
+    <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
       body {
-        font-family: 'Arial', sans-serif;
+        font-family: Monospace;
         background-color: #f4f4f4;
         padding: 20px;
         overflow: auto;
@@ -106,20 +106,16 @@ document.addEventListener("DOMContentLoaded", function () {
         align-items: center;
         font-size: 14px;
       }
-
-      .certificate-iframe {
-        width: 100%;
-        height: 300px; 
-        border: 1px solid #ccc;
-        border-radius: 8px;
-      }
     </style>
   </head>
   <body>
     <div class="container">
       <h1>Congratulations, ${fullName}!</h1>
-      <p>You have successfully received your certificate.</p>
-      <iframe class="certificate-iframe" src="data:application/pdf;base64,${attachmentData}"></iframe>
+      <br>
+      <p>Life's challenges may be tough, but your accomplishments thus far are truly commendable. Keep pushing forward ❤️ 
+        <br><br>
+    You'll find your certificate attached below.</p>
+      
     </div>
     <div class="reach-me-out">
       <p>Reach Me Out:</p>
@@ -135,12 +131,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   `;
     Email.send({
-        SecureToken : "911842a0-e212-4398-bd0c-ae108dc9dc78",
+        SecureToken : "a5734b22-c971-43c7-b656-db1200867c81",
         To : email , 
-        From: {
-          name: "Ines Zenkri",
-          email: "ines@zenkri.com",
-      },
+        From: "Ines@Zenkri.com",
         Subject: "Your Certificate",
         Body: htmlBody,
         Attachments: [
@@ -149,7 +142,9 @@ document.addEventListener("DOMContentLoaded", function () {
             data: attachmentData,
           },
         ],
-    })
+    }).then(
+      message => alert(message)
+    );
   };
   };
 
