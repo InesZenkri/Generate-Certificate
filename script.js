@@ -142,9 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
             data: attachmentData,
           },
         ],
-    }).then(
-      message => alert(message)
-    );
+    })
   };
   };
 
