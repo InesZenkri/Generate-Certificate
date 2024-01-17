@@ -1,62 +1,78 @@
 document.addEventListener("DOMContentLoaded", function () {
   const certificateForm = document.getElementById("certificateForm");
 
-  const capitalize = (str) => {
-    return str.replace(/\b\w/g, (char) => char.toUpperCase());
+  const modal = document.querySelector(".modal");
+  const overlay = document.querySelector(".overlay");
+  const closeModalBtn = document.querySelector(".close");
+  const sendmail = document.querySelector("#sendEmailBtn");
+  const downloadbt = document.querySelector("#downloadBtn");
+  const openModal = function () {
+    modal.classList.remove("hidden");
+    overlay.classList.remove("hidden");
+  };
+  const closeModal = function () {
+    modal.classList.add("hidden");
+    overlay.classList.add("hidden");
+    document.getElementById("firstNameInput").value = "";
+    document.getElementById("lastNameInput").value = "";
+    document.getElementById("emailInput").value = "";
   };
 
-  const generatePDF = async (firstName, lastName, email) => {
-    const existingPdfBytes = await fetch("./certificate.pdf").then((res) =>
-      res.arrayBuffer()
-    );
+  const sendE = async function () {
+    const firstName = document.getElementById("firstNameInput").value.trim();
+    const lastName = document.getElementById("lastNameInput").value.trim();
+    const email = document.getElementById("emailInput").value.trim();
+    const existingPdfBytes = await fetch("certificate.pdf").then((res) =>
+    res.arrayBuffer()
+  );
 
-    const { PDFDocument, rgb } = PDFLib;
+  const { PDFDocument, rgb } = PDFLib;
 
-    // Load a PDFDocument from the existing PDF templete
-    const pdfDoc = await PDFDocument.load(existingPdfBytes);
+  // Load a PDFDocument from the existing PDF templete
+  const pdfDoc = await PDFDocument.load(existingPdfBytes);
 
-    // Get the first page of the document
-    const pages = pdfDoc.getPages();
-    const firstPage = pages[0];
+  // Get the first page of the document
+  const pages = pdfDoc.getPages();
+  const firstPage = pages[0];
 
-    // I want to check the validety/existacy of the email too and then sen dthe certificate per mail to the given adress
-    // Capitalize and Concatenatefirst and last names
-    const formattedFirstName = capitalize(firstName);
-    const formattedLastName = capitalize(lastName);
-    console.log(email);
-    const fullName = `${formattedFirstName} ${formattedLastName}`;
+  // I want to check the validety/existacy of the email too and then sen dthe certificate per mail to the given adress
+  // Capitalize and Concatenatefirst and last names
+  const formattedFirstName = capitalize(firstName);
+  const formattedLastName = capitalize(lastName);
+  console.log(email);
+  const fullName = `${formattedFirstName} ${formattedLastName}`;
 
-    /*Draw name*/
-    const startX = 135; 
-    const endX = 740; 
-    const rangeWidth = endX - startX;
-    let fontSize = 58; //initial 
-    const font = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
-    let textWidth = font.widthOfTextAtSize(fullName, fontSize);
-    if(textWidth > rangeWidth) {
-      console.log("doesn't fit in");
-      const scale = rangeWidth / textWidth;
-      fontSize *= scale ;// chnage it (smaller) so the name fits in
-      textWidth = font.widthOfTextAtSize(fullName, fontSize);
-    }
-    const textStartX = startX + (rangeWidth - textWidth) / 2;
-    firstPage.drawText(fullName, {
-      x: textStartX,
-      y: 270,
-      size: fontSize,
-      color: rgb(0.71, 0.514, 0.839),
-    });
+  /*Draw name*/
+  const startX = 135; 
+  const endX = 740; 
+  const rangeWidth = endX - startX;
+  let fontSize = 58; //initial 
+  const font = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
+  let textWidth = font.widthOfTextAtSize(fullName, fontSize);
+  if(textWidth > rangeWidth) {
+    console.log("doesn't fit in");
+    const scale = rangeWidth / textWidth;
+    fontSize *= scale ;// chnage it (smaller) so the name fits in
+    textWidth = font.widthOfTextAtSize(fullName, fontSize);
+  }
+  const textStartX = startX + (rangeWidth - textWidth) / 2;
+  firstPage.drawText(fullName, {
+    x: textStartX,
+    y: 270,
+    size: fontSize,
+    color: rgb(0.71, 0.514, 0.839),
+  });
 
-    // Serialize the PDFDocument to bytes
-    pdfDoc.setTitle('Your Certificate From Ines');
-    const pdfBytes = await pdfDoc.save();
-    console.log("Done creating");
+  // Serialize the PDFDocument to bytes
+  pdfDoc.setTitle('Your Certificate From Ines');
+  const pdfBytes = await pdfDoc.save();
+  console.log("Done creating");
 
-    // Create a Blob and save the PDF
-    const file = new Blob([pdfBytes], {
-      type: "application/pdf;charset=utf-8",
-    });
-    saveAs(file, "Certificate.pdf")
+  // Create a Blob and save the PDF
+  const file = new Blob([pdfBytes], {
+    type: "application/pdf;charset=utf-8",
+  });
+
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
@@ -144,8 +160,74 @@ document.addEventListener("DOMContentLoaded", function () {
         ],
     })
   };
+};
+
+
+ 
+  const capitalize = (str) => {
+    return str.replace(/\b\w/g, (char) => char.toUpperCase());
   };
 
+  const downloadit = async function (){
+    const firstName = document.getElementById("firstNameInput").value.trim();
+    const lastName = document.getElementById("lastNameInput").value.trim();
+    const email = document.getElementById("emailInput").value.trim();
+    const existingPdfBytes = await fetch("./certificate.pdf").then((res) =>
+      res.arrayBuffer()
+    );
+
+    const { PDFDocument, rgb } = PDFLib;
+
+    // Load a PDFDocument from the existing PDF templete
+    const pdfDoc = await PDFDocument.load(existingPdfBytes);
+
+    // Get the first page of the document
+    const pages = pdfDoc.getPages();
+    const firstPage = pages[0];
+
+    // Capitalize and Concatenatefirst and last names
+    const formattedFirstName = capitalize(firstName);
+    const formattedLastName = capitalize(lastName);
+    console.log(email);
+    const fullName = `${formattedFirstName} ${formattedLastName}`;
+
+    /*Draw name*/
+    const startX = 135; 
+    const endX = 740; 
+    const rangeWidth = endX - startX;
+    let fontSize = 58; //initial 
+    const font = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
+    let textWidth = font.widthOfTextAtSize(fullName, fontSize);
+    if(textWidth > rangeWidth) {
+      console.log("doesn't fit in");
+      const scale = rangeWidth / textWidth;
+      fontSize *= scale ;// chnage it (smaller) so the name fits in
+      textWidth = font.widthOfTextAtSize(fullName, fontSize);
+    }
+    const textStartX = startX + (rangeWidth - textWidth) / 2;
+    firstPage.drawText(fullName, {
+      x: textStartX,
+      y: 270,
+      size: fontSize,
+      color: rgb(0.71, 0.514, 0.839),
+    });
+
+    // Serialize the PDFDocument to bytes
+    pdfDoc.setTitle('Your Certificate From Ines');
+    const pdfBytes = await pdfDoc.save();
+    console.log("Done creating");
+
+    // Create a Blob and save the PDF
+    const file = new Blob([pdfBytes], {
+      type: "application/pdf;charset=utf-8",
+    });
+    saveAs(file, "Certificate.pdf")
+  };
+
+  closeModalBtn.addEventListener("click", closeModal);
+  sendmail.addEventListener("click", sendE);
+  downloadbt.addEventListener("click", downloadit);
+  
   // Check valid Format of email
   const validateEmail = (email) => {
     const regex =  /\S+@\S+\.\S+/;
@@ -177,10 +259,7 @@ document.addEventListener("DOMContentLoaded", function () {
           const data = JSON.parse(response);
           console.log('Response data:', data);
           if (data.deliverability === 'DELIVERABLE') {*/
-            generatePDF(firstName, lastName, email);
-            document.getElementById("firstNameInput").value = "";
-            document.getElementById("lastNameInput").value = "";
-            document.getElementById("emailInput").value = "";
+            openModal();
             /*alert("Certificate Downloaded");
             console.log('email is valid');
           }else {

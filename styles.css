@@ -153,3 +153,153 @@ form .form-row .input-data {
     width: 40% !important;
   }
 }
+
+.modal {
+  display: flex;
+  justify-content: center;
+  width: 90%;
+  height: 90%;
+  min-height: 250px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-image: url("srs/mod.png");
+  background-size: 100% 100%;
+  border-radius: 2%;
+
+}
+
+.close {
+  position: absolute;
+  left: 32px;
+  top: 32px;
+  width: 32px;
+  height: 32px;
+  opacity: 0.3;
+}
+.close:hover {
+  opacity: 1;
+}
+.close:before, .close:after {
+  position: absolute;
+  left: 15px;
+  content: ' ';
+  height: 33px;
+  width: 2px;
+  background-color: #333;
+}
+.close:before {
+  transform: rotate(45deg);
+}
+.close:after {
+  transform: rotate(-45deg);
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+  z-index: 1;
+}
+.modal {
+  z-index: 2;
+}
+
+.hidden {
+  display: none;
+}
+
+.text{
+  margin-bottom: 40px;
+}
+.container {
+   position: relative;
+}
+
+.savesend {
+   position: absolute;
+   top: 50%;
+   display: flex;
+   justify-items: center;
+}
+.Download.email {
+   left: 0;
+   margin-bottom: 10px;
+   margin-left: 20px;
+}
+
+.Download.download {
+   right: 0;
+   margin-bottom: 10px;
+   margin-left: 20px;
+}
+.Download{
+       width: 125px;
+       height: 45px;
+       border-radius: 20px;
+       border: none;
+       box-shadow: 1px 1px rgba(107, 221, 215, 0.37);
+       padding: 5px 10px;
+       background: rgb(47,93,197);
+       background: linear-gradient(160deg, rgba(47,93,197,1) 0%, rgba(46,86,194,1) 5%, rgba(47,93,197,1) 11%, rgba(59,190,230,1) 57%, rgba(0,212,255,1) 71%);
+       color: #fff;
+       font-family: Roboto, sans-serif;
+       font-weight: 505;
+       font-size: 15px;
+       cursor: pointer;
+       filter: drop-shadow(0 0 10px rgba(59, 190, 230, 0.568));
+       transition: .5s linear;
+   }
+   .Download .mysvg {
+       display: none;
+   }
+   
+   .Download:hover {
+       width: 50px;
+       height: 50px;
+       border-radius: 50%;
+       transition: .5s linear;
+   }
+   .Download.download{
+       display: inline !important;
+   }
+   .Download.email:hover .texto,
+   .Download.download:hover .texto {
+       display: none !important;
+   }
+   
+   .Download:hover .mysvg {
+       display: inline;
+   }
+   
+   .Download:hover::before{
+       content: '';
+       position: absolute;
+       top: -3px;
+       left: -3px;
+       width: 100%;
+       height: 100%;
+       border: 3.5px solid transparent;
+       border-top: 3.5px solid #fff;
+       border-right: 3.5px solid #fff;
+       border-radius: 50%;
+       animation: animateC 2s linear infinite;
+   }
+   
+   @keyframes animateC {
+       0% {
+       transform: rotate(0deg);
+       }
+   
+       100% {
+       transform: rotate(360deg);
+       }
+   }
+   
